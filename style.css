@@ -1,0 +1,69 @@
+box-background-colour   color_bbg   hsla(280, 100%, 50%, .1)
+box-background-colour   color_br_dark   hsl(160, 100%, 30%)
+box-background-colour   color_br_light   hsl(160, 100%, 60%)
+
+* {
+    font-family: "Fira Code", "Ubuntu", "Noto Mono", sans-serif;
+}
+
+a {
+    padding: .5em;
+}
+
+div .blocky {
+    display: block;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+div .growy {
+    display: inline-flex;
+    background-color: hsla(280, 100%, 50%, .1);
+    flex-direction: column;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-wrap: wrap;
+    border: 5px solid hsl(160, 100%, 30%);
+    border-radius: 5px;
+}
+
+div .flowy-row {
+    display: flex;
+    background-color: hsla(280, 100%, 50%, .1);
+    flex-direction: row;
+    flex-wrap: wrap;
+    padding: .5em;
+    margin: .5em;
+    border: 2px solid hsl(150, 100%, 50%);
+    border-radius: 5px;
+}
+
+div .item {
+    display: flex;
+    flex-direction: column;
+    padding: .5em;
+}
+
+div .flowy {
+    display: flex;
+    overflow: auto;
+    flex-direction: column;
+    background-color: hsla(280, 100%, 50%, .1);
+    flex-wrap: wrap;
+    padding: .5em;
+    margin: .5em;
+    border: 2px solid hsl(150, 100%, 50%);
+    border-radius: 5px;
+}
+
+.f_c {
+    justify-content: center;
+}
+
+.maxthird {
+    max-width: 30%;
+}
+
+.indnt {
+    margin-left: 4em;
+}
