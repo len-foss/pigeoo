@@ -11,10 +11,11 @@ The folder also contains all the information in `.py` files that are dicts
 
 See TODO section: this is more of a stub than a project.
 
-![Screenshot](Screenshot.png)
+![Screenshot](doc/Screenshot.png)
 
 ## Usage
-Simply execute the script. Requirements are listed in the imports. Python 3.5+ 
+Simply execute the script. 
+Requirements are listed in the imports. Python 3.8+. TODO, really. 
 
 Generates the documentation for a set of addons path.
 Each repository should already be in the desired version.
@@ -28,7 +29,6 @@ Unexpected things might cause arbitrary crashes, so stay clean.*
 
 Arguments:
  - `output_path, -o`: folder for the documentation (defaults to `odoo_'branch_name(s)'`)
- - `web_root, -w`: online root for links (defaults to `https://github.com/odoo/`)
  - `paths, -p`: paths for the Odoo addons (defaults to `~/src/odoo,~/src/enterprise`)
 
 *this script has been tested on all supported stable versions of Odoo.
@@ -53,11 +53,6 @@ The next steps would be:
    (should then store this information in a database, as it would be huge)
  - IDE integration
  - ...
-
-I won't work on any of that in the near future since there is no motivation
-from Odoo to build any of that. 
-It can already be useful in it's current state,
-and if anybody is interested in working on it feel free to drop me a line.
 
 ## Comments
 
