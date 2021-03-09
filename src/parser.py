@@ -259,13 +259,17 @@ def module_path_has_manifest(module_path: Path) -> bool:
     return os.path.isdir(module_path) and os.path.exists(manifest_file)
 
 
-def modules_from_paths(path_list: [Path]) -> [Path]:
+def modules_from_paths(path_list: [Path], all_module_depths=None) -> [Path]:
     module_list = []
     for path in path_list:
         for module in os.listdir(path):
-            module_path = os.path.join(path, module)
-            if not re.match(RE_IGNORE, module) and module_path_has_manifest(module_path):
-                module_list.append(module_path)
+            if all_module_depths:
+                if module in all_module_depths:
+                    module_list.append(os.path.join(path, module))
+            else:
+                module_path = os.path.join(path, module)
+                if not re.match(RE_IGNORE, module) and module_path_has_manifest(module_path):
+                    module_list.append(module_path)
     return module_list
 
 

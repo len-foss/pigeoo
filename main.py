@@ -31,6 +31,8 @@ def main_arguments_parser():
                         default=PATHS, help='Comma separated list of paths.')
     parser.add_argument('--local', '-l', type=str2bool, nargs='?',
                         default=True, help='If run in local mode, documentation contains links to files.')
+    parser.add_argument('--modules', '-m', type=str, nargs='?',
+                        default=[], help='If set, restrict the modules to their dependencies.')
 
     return parser
 
@@ -100,6 +102,8 @@ if __name__ == "__main__":
 
         options = {'local': args.local, 'hashes': hashes, 'versions': versions}
         options["git_paths"] = git_paths
+        modules = args.modules.split(',') if isinstance(args.modules, str) else []
+        options["modules"] = modules
         output_path = args.output_path or default_output_path(options)
 
         generator.main(paths, output_path, options)

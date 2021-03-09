@@ -15,6 +15,10 @@ See TODO section: this is more of a stub than a project.
 
 ## Usage
 Simply execute the script. 
+Example (generates doc based on pip installation, restricted to two 'top' modules):
+
+```python3 main.py -m project_all,project_all_enterprise -p /home/user/src/project/odoo/addons,/home/user/.virtualenvs/project/lib/python3.6/site-packages/odoo/addons -o project_doc```
+
 Requirements are listed in the imports. Python 3.8+. TODO, really. 
 
 Generates the documentation for a set of addons path.

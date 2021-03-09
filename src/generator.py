@@ -9,6 +9,7 @@ from typing import Dict
 
 from src import formatter
 from src import parser
+from src import query
 from src.parser import InfoDepTree
 from src.utils import _logger, Path, file_write
 
@@ -113,7 +114,7 @@ def html_generate_modules(module_list, output_path, options:Dict):
 
 
 def main_generate_doc(paths: [Path], all_module_deps, output_path: Path, options:Dict):
-    all_modules = parser.modules_from_paths(paths)
+    all_modules = parser.modules_from_paths(paths, all_module_deps)
     all_models_files = parser.models_files_from_modules(all_modules)
     all_model_dicts = []
     for model_file in all_models_files:
@@ -160,11 +161,24 @@ def main_generate_module_deps(all_module_deps, output_path: Path, options: Dict)
     return html_generate_modules(all_module_deps, output_path, options)
 
 
+def filter_modules(all_module_deps, options: Dict):
+    result = all_module_deps
+    if options["modules"]:
+        filter = options["modules"]
+        depends = query.module_m_depends_on_n
+        result = {
+            m: all_module_deps[m] for m in all_module_deps if
+            m in filter or any(depends(f, m, all_module_deps) for f in filter)
+        }
+    return result
+
+
 def main(paths, output_path, options):
     _logger.info("Starting documentation for " + output_path)
     os.makedirs(output_path, mode=0o777, exist_ok=True)
 
     all_module_deps = generate_module_deps(paths, options)
+    all_module_deps = filter_modules(all_module_deps, options)
     main_generate_module_deps(all_module_deps, output_path, options)
     main_generate_doc(paths, all_module_deps, output_path, options)
 
