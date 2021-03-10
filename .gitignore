@@ -1,5 +1,8 @@
-# Byte-compiled / optimized / DLL files
+# standard doc output directories
+doc_*/
 odoo_*/
+
+# Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
