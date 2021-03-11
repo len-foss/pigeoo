@@ -1,17 +1,17 @@
 #!/usr/bin/env python3
 
 import os
-import click
-from configargparse import ArgumentParser
 import subprocess
 
-from src import generator
+import click
+from configargparse import ArgumentParser
 
-from src.utils import Path, _logger
+from . import generator
+from .utils import Path, _logger
 
 PATHS = [
     "~/src/odoo/",
-    #"~/src/enterprise/",
+    # "~/src/enterprise/",
 ]
 
 
@@ -19,7 +19,7 @@ def main_arguments_parser():
     def str2bool(v):
         return str(v).lower() in ('yes', 'true', 't', 'y', '1')
 
-    parser = ArgumentParser(description='OdooDoc', default_config_files=['./odoodoc.rc', '~/.odoodoc.rc'])  # TODO: use standard config file?
+    parser = ArgumentParser(description='Pigeoo', default_config_files=['./pigeoo.rc', '~/.pigeoo.rc'])  # TODO: use standard config file?
     parser.add('-c', '--config', is_config_file=True, help='config file path')
 
     # parser
@@ -88,7 +88,7 @@ def find_latest_version() -> str:
     return directories[-1]
 
 
-if __name__ == "__main__":
+def main():
     args = main_arguments_parser().parse_args()
     if args.generate:
         # TODO: autodetect venv path, etc (project mode)
@@ -107,3 +107,7 @@ if __name__ == "__main__":
         output_path = args.output_path or default_output_path(options)
 
         generator.main(paths, output_path, options)
+
+
+if __name__ == "__main__":
+    main()

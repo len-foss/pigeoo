@@ -1,7 +1,7 @@
 import logging
 
 logging.basicConfig(level=logging.DEBUG)
-_logger = logging.getLogger("odoodoc")
+_logger = logging.getLogger("pigeoo")
 
 Path = str
 

@@ -3,7 +3,7 @@ from typing import Dict
 from lxml.builder import E
 from lxml.html.builder import CLASS  # type: ignore
 
-from src import parser
+from . import parser
 
 
 WEB_ICON = "🌐"

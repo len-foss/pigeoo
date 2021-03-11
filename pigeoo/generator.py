@@ -7,11 +7,11 @@ from pprint import pformat as pf
 
 from typing import Dict
 
-from src import formatter
-from src import parser
-from src import query
-from src.parser import InfoDepTree
-from src.utils import _logger, Path, file_write
+from . import formatter
+from . import parser
+from . import query
+from .parser import InfoDepTree
+from .utils import _logger, Path, file_write
 
 
 STYLE = "style.css"
@@ -173,6 +173,12 @@ def filter_modules(all_module_deps, options: Dict):
     return result
 
 
+def copy_stylesheet(output_path):
+    source = os.path.dirname(os.path.realpath(__file__))
+    stylesheet = os.path.join(source, "static/", STYLE)
+    shutil.copyfile(stylesheet, os.path.join(output_path, STYLE))
+
+
 def main(paths, output_path, options):
     _logger.info("Starting documentation for " + output_path)
     os.makedirs(output_path, mode=0o777, exist_ok=True)
@@ -182,7 +188,7 @@ def main(paths, output_path, options):
     main_generate_module_deps(all_module_deps, output_path, options)
     main_generate_doc(paths, all_module_deps, output_path, options)
 
-    shutil.copyfile(os.path.join("static/", STYLE), os.path.join(output_path, STYLE))
+    copy_stylesheet(output_path)
     file_write(pf(options), os.path.join(output_path, "options.py"))
 
     _logger.info("Documentation has been generated.")

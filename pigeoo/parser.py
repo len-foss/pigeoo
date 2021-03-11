@@ -4,8 +4,8 @@ import ast
 from typing import List, Dict, Optional
 from subprocess import Popen, PIPE
 
-from src import query
-from src.utils import _logger, Path
+from . import query
+from .utils import _logger, Path
 
 MODEL_FOLDERS = ["models", "components", "wizard", "wizards", "datamodels"]  # TODO: nonstandard
 
