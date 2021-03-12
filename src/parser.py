@@ -169,7 +169,7 @@ def parse_class_function(a_a):
 
 
 def parse_class_assign(a_a):
-    assert(len(a_a.targets) == 1)
+    # assert(len(a_a.targets) == 1)  # api.key in v14 assigns _name and_description
     name = a_a.targets[0].id
     parsers = {
         is_assign_field: parse_value_field,
