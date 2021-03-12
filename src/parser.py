@@ -287,9 +287,10 @@ def module_path_from_name(name: str, paths: [Path]) -> Path:
 def module_dependencies_tree(module_path, paths):
     if module_name_from_path(module_path) == 'base':
         return {}
-    if not os.path.exists(module_path):
-        module_path = module_path_from_name(module_path, paths)
     manifest_file = os.path.join(module_path, '__manifest__.py')
+    if not os.path.exists(manifest_file):
+        module_path = module_path_from_name(module_path, paths)
+        manifest_file = os.path.join(module_path, '__manifest__.py')
     if not os.path.exists(manifest_file):
         _logger.exception("Module without a manifest: " + module_path)
         return {}
