@@ -82,9 +82,13 @@ def parse_value_field(v):
 def parse_value_sql(v):
     s = []
     for triplet in v.elts:
-        x = tuple([t.s if 'args' not in dir(t) else t.args[0].s
-                   for t in triplet.elts])
-        s.append(x)
+        f_map = {
+            'left': lambda t: t.left.s,
+            'args': lambda t: t.args[0].s,
+            's': lambda t: t.s,
+        }
+        f = lambda t: (v(t) for k, v in f_map.items() if k in dir(t))
+        s.append(tuple(next(f(t)) for t in triplet.elts))
     return s
 
 
