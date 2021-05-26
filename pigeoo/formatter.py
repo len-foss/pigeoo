@@ -99,6 +99,16 @@ def inheritance_tree_to_ethtml(module_tree, options: Dict):
     return E.div(CLASS("blocky"), E.h2("Inheritance tree"), e)
 
 
+def inherited_tree_to_ethtml(depending_list, options: Dict):
+    e = E.div(CLASS("growy"))
+    for level in depending_list:
+        l = E.div(CLASS("flowy-row f_c"))
+        for module in level:
+            l.append(E.div(E.span(module), CLASS("flowy f_c")))
+        e.append(l)
+    return E.div(CLASS("blocky"), E.h2("Depending modules"), e)
+
+
 def functions_to_ethtml(name, fdict, options: Dict):
     e = E.div(CLASS("growy"))
     for model in fdict:

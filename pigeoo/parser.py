@@ -374,13 +374,7 @@ def dep_tree_enrich(dep_tree: DepTree, paths:[Path], options: Dict) -> InfoDepTr
 def class_tree(class_name, class_list, paths, github_root, all_module_deps):
     classes = query.get_class(class_name, class_list)
     modules = set(c['module'] for c in classes)
-    tree = []
-    while modules:
-        depends = query.module_m_depends_on_n
-        level = {c for c in modules if
-                 not any(depends(c, d, all_module_deps) for d in modules)}
-        modules  = modules - level
-        tree.append(list(level))
+    tree = query.treeify_modules(modules, all_module_deps)
 
     infos = dep_tree_enrich(tree, paths, github_root)
     class_tree = [[c for c in classes if c['module'] in level] for level in tree]

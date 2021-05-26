@@ -53,7 +53,8 @@ def format_module_tree_to_html(index_name: str, module: str, module_tree: InfoDe
     body = [
         E.h1(module),
         formatter.header_to_ethtml(index_name),
-        formatter.inheritance_tree_to_ethtml(module_tree, options),
+        formatter.inheritance_tree_to_ethtml(module_tree['dependencies'], options),
+        formatter.inherited_tree_to_ethtml(module_tree['depending'], options),
     ]
     return html_write(module, body, module + '.html', output_path)
 
@@ -152,9 +153,15 @@ def generate_module_deps(paths: [Path], options:Dict):
         ideps = parser.invert_dependencies(m, deps, paths)
         n = parser.module_name_from_path(m)
         infos = parser.dep_tree_enrich(ideps, paths, options)
-
-        all_module_deps.update({n: infos})
+        all_module_deps.update({n: {'dependencies': infos}})
     return all_module_deps
+
+
+def compute_dependings(all_modules):
+    for mod in all_modules:
+        depending_flat = query.get_depending_modules(mod, all_modules)
+        all_modules[mod]['depending'] = query.treeify_modules(depending_flat, all_modules)
+
 
 def main_generate_module_deps(all_module_deps, output_path: Path, options: Dict) -> str:
     file_write(pf(all_module_deps), os.path.join(output_path, "all_modules.py"))
@@ -164,6 +171,7 @@ def main_generate_module_deps(all_module_deps, output_path: Path, options: Dict)
 def filter_modules(all_module_deps, options: Dict):
     result = all_module_deps
     if options["modules"]:
+        # keep modules on which option["modules"] depend
         filter = options["modules"]
         depends = query.module_m_depends_on_n
         result = {
@@ -185,6 +193,7 @@ def main(paths, output_path, options):
 
     all_module_deps = generate_module_deps(paths, options)
     all_module_deps = filter_modules(all_module_deps, options)
+    compute_dependings(all_module_deps)
     main_generate_module_deps(all_module_deps, output_path, options)
     main_generate_doc(paths, all_module_deps, output_path, options)
 
