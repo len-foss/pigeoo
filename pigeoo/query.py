@@ -1,3 +1,13 @@
+def treeify_modules(modules, all_modules):
+    tree = []
+    while modules:
+        level = {c for c in modules if
+                 not any(module_m_depends_on_n(c, d, all_modules) for d in modules)}
+        modules = modules - level
+        tree.append(level)
+    return tree
+
+
 def get_class_name(c):
     if c.get('_name'):
         return c.get('_name')
@@ -11,17 +21,17 @@ def get_class(class_name, class_list):
 
 
 def get_depending_modules(mod_name, all_modules) -> [str]:  # -> [module_names]
-    return [m for m in all_modules if module_m_depends_on_n(m, mod_name, all_modules)]
+    return {m for m in all_modules if module_m_depends_on_n(m, mod_name, all_modules)}
 
 
 def module_m_depends_on_n(m, n, all_modules) -> bool:
     # we only need to look at level k + 1 if module_name has dependency depth k
     if m == n:
         return False
-    k = len(all_modules[n])
+    k = len(all_modules[n]['dependencies'])
     result = False
-    if len(all_modules[m]) > k:
-        result = any(n == md["name"] for md in all_modules[m][k])
+    if len(all_modules[m]['dependencies']) > k:
+        result = any(n == md["name"] for md in all_modules[m]['dependencies'][k])
     return result
 
 def get_functions(name, function_list):
