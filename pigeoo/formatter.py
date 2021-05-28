@@ -7,10 +7,15 @@ from . import parser
 
 
 WEB_ICON = "🌐"
+LINK_ICON = "🔗"
 
 
 def html_link(link: str, name: str=""):
     return E.a(name or link, href=link)
+
+
+def internal_link(object: str):
+    return html_link(object + ".html", LINK_ICON)
 
 
 def header_to_ethtml(name: str):
@@ -23,7 +28,6 @@ def class_to_ethtml(odoo_class, options: Dict):
     root = E.div(CLASS("flowy maxthird"))
 
     github_link = parser.web_link(odoo_class['file'], options)
-
     details = E.details()
     if options['local']:
         span = [html_link(odoo_class['full path'], odoo_class['module'])]
@@ -31,6 +35,7 @@ def class_to_ethtml(odoo_class, options: Dict):
         span = [odoo_class['module']]
     if github_link:
         span.append(html_link(github_link, WEB_ICON))
+    span.append(internal_link(odoo_class['module']))
     summary = E.summary(E.span(*span))
     e = E.div()
     root.append(details)
@@ -94,6 +99,7 @@ def inheritance_tree_to_ethtml(module_tree, options: Dict):
                 span = [module["name"]]
             if module["link"]:
                 span.append(html_link(module["link"], ' 🌐'))
+            span.append(internal_link(module["name"]))
             l.append(E.div(E.span(*span), CLASS("flowy f_c")))
         e.append(l)
     return E.div(CLASS("blocky"), E.h2("Inheritance tree"), e)
@@ -104,7 +110,7 @@ def inherited_tree_to_ethtml(depending_list, options: Dict):
     for level in depending_list:
         l = E.div(CLASS("flowy-row f_c"))
         for module in level:
-            l.append(E.div(E.span(module), CLASS("flowy f_c")))
+            l.append(E.div(E.span(module, internal_link(module)), CLASS("flowy f_c")))
         e.append(l)
     return E.div(CLASS("blocky"), E.h2("Depending modules"), e)
 
