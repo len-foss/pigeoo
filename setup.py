@@ -10,7 +10,7 @@ url_root = f"https://github.com/len-foss/{name}"
 
 setuptools.setup(
     name=name,
-    version="0.0.3.0",
+    version="0.0.4.0",
     author="len-foss",
     author_email="nans.lefebvre@acsone.eu",
     description="Odoo Documentation Generator",
