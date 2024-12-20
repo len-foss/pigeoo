@@ -1,6 +1,6 @@
 import logging
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 _logger = logging.getLogger("pigeoo")
 
 Path = str
