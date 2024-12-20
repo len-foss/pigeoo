@@ -88,13 +88,24 @@ def find_latest_version() -> str:
     return directories[-1]
 
 
+def filter_git_paths(paths: [Path]) -> [Path]:
+    git_paths = []
+    for path in paths:
+        try:
+            subprocess.check_output(['git', 'status'], cwd=path).decode()
+            git_paths.append(path)
+        except subprocess.CalledProcessError:
+            pass  # that's fine
+    return git_paths
+
+
 def main():
     args = main_arguments_parser().parse_args()
     if args.generate:
         # TODO: autodetect venv path, etc (project mode)
         paths = args.paths.split(',') if isinstance(args.paths, str) else PATHS
         paths = deduplicate(normalize_paths(paths))
-        git_paths = [p for p in paths if "packages" not in p]
+        git_paths = filter_git_paths(paths)
         git_check_clean_paths(git_paths)
 
         versions = deduplicate(git_get_version(path) for path in git_paths)

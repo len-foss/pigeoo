@@ -430,7 +430,7 @@ def git_to_https(repository: str) -> str:
 
 
 def web_link(file_name:Path, options: Dict) -> Optional[str]:
-    if "packages" in file_name:  # "git_paths" in options
+    if not any(p in file_name for p in options['git_paths']):
         return None
     repository_path = git_repository_folder_from_filename(file_name)
     repository = git_to_https(git_repository_folder_to_remote(repository_path))
